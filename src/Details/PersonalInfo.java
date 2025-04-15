@@ -1,4 +1,4 @@
-package MainClasses;
+package Details;
 
 public class PersonalInfo {
     private String name;

@@ -2,6 +2,7 @@ package MainClasses;
 
 import Details.ContactInfo;
 import Details.Credentials;
+import Details.PersonalInfo;
 
 public abstract class Person {
 
@@ -22,14 +23,12 @@ public abstract class Person {
         return personalInfo;
     }
     public ContactInfo getContactInfo() {
-        if (contactInfo == null) {
-            throw new NullPointerException("contactInfo has not been initialized.");
-        }
         return contactInfo;
     }
     public Credentials getCredentials() {
         return credentials;
     }
+
     // Setters
     public void setPersonalInfo(PersonalInfo personalInfo) {
         this.personalInfo = personalInfo;
@@ -43,6 +42,6 @@ public abstract class Person {
 
     // toString
     public String toString() {
-        return getPersonalInfo().toString() + "\n " + getContactInfo().toString() + "\n " + getCredentials().toString();
+        return getPersonalInfo() + "\n " + getContactInfo() + "\n " + getCredentials();
     }
 }

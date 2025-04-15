@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import Functions.*;
 import MainClasses.Admin;
-import MainClasses.PersonalInfo;
+import Details.PersonalInfo;
 import MainClasses.Student;
 
 public class ConsoleUtils {

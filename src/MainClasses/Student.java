@@ -1,10 +1,11 @@
 package MainClasses;
 
 import Details.Credentials;
+import Details.PersonalInfo;
 import Details.StudentAcademicInfo;
 import Details.ContactInfo;
 
-public class Student extends Person {
+public class Student extends Person implements StudentFunctions {
      private StudentAcademicInfo studentAcademicInfo;
      // Constructors
      public Student(){}
@@ -15,15 +16,11 @@ public class Student extends Person {
 
      // Getters
      public StudentAcademicInfo getStudentAcademicInfo() {
-          if (studentAcademicInfo == null) {
-               throw new NullPointerException("StudentAcademicInfo has not been initialized.");
-          }
           return studentAcademicInfo;
      }
 
      // Setters
      public void setStudentAcademicInfo(StudentAcademicInfo studentAcademicInfo) {
-
           this.studentAcademicInfo = studentAcademicInfo;
      }
 
@@ -32,4 +29,18 @@ public class Student extends Person {
      public String toString() {
           return super.toString() + "\n " + getStudentAcademicInfo();
      }
+
+     public boolean isCredentialsMatched(Credentials credentials){
+          return true; //written temporary
+     }
+     public void viewInfo(){
+
+     }
+     public void viewGrades(){
+
+     }
+     public void viewAttendance(){
+
+     }
+
 }

@@ -9,8 +9,14 @@ import static PresentationLayer.ConsoleUtils.*;
 public class Main {
     public static void main(String[] args) {
         ConsoleUtils.title();
+        registerAdmin();
+        loginUser();
+
+    }
+    public static void registerAdmin() {
         Admin admin = new Admin();
         // Register Admin
+
         if(!admin.isRegistered()) {
             while(!admin.isRegistered()){
                 try{
@@ -20,10 +26,6 @@ public class Main {
                 }
             }
         }
-
-        // Login user
-        loginUser();
-
     }
     public static void loginUser() {
         Credentials credentials = new Credentials();

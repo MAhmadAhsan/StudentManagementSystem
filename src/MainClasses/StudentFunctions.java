@@ -2,8 +2,9 @@ package MainClasses;
 
 import Details.Credentials;
 
-public interface TeacherFunctions {
+public interface StudentFunctions {
     boolean isCredentialsMatched(Credentials credentials);
-    void uploadStudentAttendance();
-    void uploadStudentGrade();
+    void viewInfo();
+    void viewGrades();
+    void viewAttendance();
 }

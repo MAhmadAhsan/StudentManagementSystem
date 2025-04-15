@@ -3,6 +3,7 @@ package MainClasses;
 import Details.ContactInfo;
 import Details.Credentials;
 import DataAcessLayer.*;
+import Details.PersonalInfo;
 import org.jetbrains.annotations.NotNull;
 
 import static DataAcessLayer.StudentData.writeNewStudentDirectory;
@@ -21,8 +22,8 @@ public class Admin extends Person implements AdminFunctions {
     }
 
     //Setters
-    public void setLoggedin(boolean loggedin) {
-        isLoggedIn = loggedin;
+    public void setLoggedIn(boolean isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
     }
 
     // toString
