@@ -1,14 +1,13 @@
 package Details;
 
-import java.util.List;
-public class AcademicInfo {
+public class StudentAcademicInfo {
     private String rollNo;
     private String classGrade;
     private String courses;
 
     // Constructors
-    public AcademicInfo() {}
-    public AcademicInfo(String rollNo, String classGrade, String courses) {
+    public StudentAcademicInfo() {}
+    public StudentAcademicInfo(String rollNo, String classGrade, String courses) {
         this.setRollNo(rollNo);
         this.setClassGrade(classGrade);
         this.setCourses(courses);

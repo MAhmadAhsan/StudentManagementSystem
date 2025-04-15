@@ -1,36 +1,35 @@
 package MainClasses;
 
-import Details.AcademicInfo;
+import Details.Credentials;
+import Details.StudentAcademicInfo;
 import Details.ContactInfo;
 
-import static DataAcessLayer.StudentData.writeNewStudentDirectory;
-
 public class Student extends Person {
-     private AcademicInfo academicInfo;
+     private StudentAcademicInfo studentAcademicInfo;
      // Constructors
      public Student(){}
-     public Student(PersonalInfo personalInfo, AcademicInfo academicInfo, ContactInfo contactInfo) {
-          super(personalInfo, contactInfo);
-          setAcademicInfo(academicInfo);
+     public Student(PersonalInfo personalInfo, ContactInfo contactInfo, Credentials credentials, StudentAcademicInfo studentAcademicInfo) {
+          super(personalInfo, contactInfo, credentials);
+          setStudentAcademicInfo(studentAcademicInfo);
      }
 
      // Getters
-     public AcademicInfo getAcademicInfo() {
-          if (academicInfo == null) {
-               throw new NullPointerException("AcademicInfo has not been initialized.");
+     public StudentAcademicInfo getStudentAcademicInfo() {
+          if (studentAcademicInfo == null) {
+               throw new NullPointerException("StudentAcademicInfo has not been initialized.");
           }
-          return academicInfo;
+          return studentAcademicInfo;
      }
 
      // Setters
-     public void setAcademicInfo(AcademicInfo academicInfo) {
+     public void setStudentAcademicInfo(StudentAcademicInfo studentAcademicInfo) {
 
-          this.academicInfo = academicInfo;
+          this.studentAcademicInfo = studentAcademicInfo;
      }
 
      // to String
      @Override
      public String toString() {
-          return super.toString() + "\n " + getAcademicInfo();
+          return super.toString() + "\n " + getStudentAcademicInfo();
      }
 }

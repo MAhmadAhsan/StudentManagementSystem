@@ -11,4 +11,5 @@ public interface AdminFunctions {
     void removeStudent(Student student);
     boolean makeClass(String className);
     void removeClass(String className);
+    boolean isRegistered();
 }

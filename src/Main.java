@@ -38,13 +38,20 @@ public class Main {
                 break;
 
             case 2:
-                Teacher teacher1 = new Teacher();
+                Teacher teacher = new Teacher();
                 credentials = credentialsForm("Login","Teacher");
-
+                if(teacher.isCredentialsMatched(credentials)) {
+                    teacher.setCredentials(credentials);
+                    loggedInTeacher(teacher);
+                }
                 break;
             case 3:
-                Student student1 = new Student();
+                Student student = new Student();
                 credentials = credentialsForm("Login","Student");
+                if(student.isCredentialsMatched(credentials)) {
+                    student.setCredentials(credentials);
+                    loggedInStudent(student);
+                }
                 break;
         }
     }

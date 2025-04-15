@@ -8,27 +8,19 @@ import org.jetbrains.annotations.NotNull;
 import static DataAcessLayer.StudentData.writeNewStudentDirectory;
 
 public class Admin extends Person implements AdminFunctions {
-    private Credentials credentials;
     private boolean isLoggedIn = false;
     // Constructors
     public Admin(){}
-    public Admin(PersonalInfo personalInfo, ContactInfo contactInfo, Credentials Credentials) {
-        super(personalInfo, contactInfo);
-        setCredentials(Credentials);
+    public Admin(PersonalInfo personalInfo, ContactInfo contactInfo, Credentials credentials) {
+        super(personalInfo, contactInfo, credentials);
     }
 
     // Getters
-    public Credentials getCredentials() {
-            return credentials;
-    }
     public boolean isLoggedIn() {
         return isLoggedIn;
     }
 
     //Setters
-    public void setCredentials(Credentials credentials) {
-        this.credentials = credentials;
-    }
     public void setLoggedin(boolean loggedin) {
         isLoggedIn = loggedin;
     }
@@ -36,7 +28,7 @@ public class Admin extends Person implements AdminFunctions {
     // toString
     @Override
     public String toString() {
-        return super.toString() + "\n" + getCredentials();
+        return super.toString();
     }
 
 
@@ -59,7 +51,7 @@ public class Admin extends Person implements AdminFunctions {
     public void removeTeacher(Teacher teacher){
     }
     public boolean addNewStudent(Student student){
-        return writeNewStudentDirectory(student.getAcademicInfo().getRollNo(), student.getAcademicInfo().getClassGrade());
+        return writeNewStudentDirectory(student.getStudentAcademicInfo().getRollNo(), student.getStudentAcademicInfo().getClassGrade());
     }
     public void removeStudent(Student student){
 

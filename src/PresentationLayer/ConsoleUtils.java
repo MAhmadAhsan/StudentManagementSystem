@@ -1,14 +1,13 @@
 package PresentationLayer;
-import DataAcessLayer.StudentData;
-import Details.AcademicInfo;
+import Details.StudentAcademicInfo;
 import Details.ContactInfo;
 import Details.Credentials;
 import java.util.Scanner;
+
 import Functions.*;
 import MainClasses.Admin;
 import MainClasses.PersonalInfo;
 import MainClasses.Student;
-import MainClasses.Teacher;
 
 public class ConsoleUtils {
 
@@ -101,7 +100,7 @@ public class ConsoleUtils {
         System.out.println("Enter Student Details");
         student.setPersonalInfo(personalInfoForm());
         student.setContactInfo(contactInfoForm());
-        student.setAcademicInfo(academicInfoForm());
+        student.setStudentAcademicInfo(academicInfoForm());
         return student;
     }
 
@@ -152,28 +151,28 @@ public class ConsoleUtils {
         System.out.println("====================================");
         return contactInfo;
     }
-    public static AcademicInfo academicInfoForm(){
+    public static StudentAcademicInfo academicInfoForm(){
 
         Scanner scanner = new Scanner(System.in);
-        AcademicInfo academicInfo = new AcademicInfo();
+        StudentAcademicInfo studentAcademicInfo = new StudentAcademicInfo();
         System.out.println("====================================");
         System.out.println("Enter Academic Info:");
 
         do {
             System.out.println("Enter Roll No: ");
-            academicInfo.setRollNo(scanner.nextLine());
-        } while (academicInfo.getRollNo() == null);
+            studentAcademicInfo.setRollNo(scanner.nextLine());
+        } while (studentAcademicInfo.getRollNo() == null);
 
         do {
             System.out.println("Enter Class Grade: ");
-            academicInfo.setClassGrade(scanner.nextLine());
-        } while (academicInfo.getClassGrade() == null);
+            studentAcademicInfo.setClassGrade(scanner.nextLine());
+        } while (studentAcademicInfo.getClassGrade() == null);
 
         do{
             System.out.println("Enter Courses: (Enter courses by comma separated): )");
-            academicInfo.setCourses(scanner.nextLine());
-        }while (academicInfo.getCourses() == null);
+            studentAcademicInfo.setCourses(scanner.nextLine());
+        }while (studentAcademicInfo.getCourses() == null);
         System.out.println("====================================");
-        return academicInfo;
+        return studentAcademicInfo;
     }
 }
