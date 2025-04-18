@@ -43,6 +43,6 @@ public class PersonalInfo {
     // toString
     @Override
     public String toString() {
-        return "Name : "+ getName() +"\nAge :  " + getAge() + "\nGender :  " + getGender();
+        return "Personal Details:"+ "\nName : "+ getName() +"\nAge :  " + getAge() + "\nGender :  " + getGender();
     }
 }

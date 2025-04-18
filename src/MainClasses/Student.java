@@ -5,7 +5,7 @@ import Details.PersonalInfo;
 import Details.StudentAcademicInfo;
 import Details.ContactInfo;
 
-public class Student extends Person implements StudentFunctions {
+public class Student extends User implements StudentFunctions {
      private StudentAcademicInfo studentAcademicInfo;
      // Constructors
      public Student(){}
@@ -27,7 +27,7 @@ public class Student extends Person implements StudentFunctions {
      // to String
      @Override
      public String toString() {
-          return super.toString() + "\n " + getStudentAcademicInfo();
+          return super.toString() + "\n" + getStudentAcademicInfo();
      }
 
      public boolean isCredentialsMatched(Credentials credentials){

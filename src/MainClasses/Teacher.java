@@ -3,7 +3,7 @@ package MainClasses;
 import Details.*;
 import Details.TeacherAcademicInfo;
 
-public class Teacher extends Person implements TeacherFunctions {
+public class Teacher extends User implements TeacherFunctions {
     TeacherAcademicInfo teacherAcademicInfo;
 
     // Constructor
@@ -28,7 +28,6 @@ public class Teacher extends Person implements TeacherFunctions {
     public String toString() {
         return super.toString() + "\n " + getTeacherAcademicInfo();
     }
-
     public boolean isCredentialsMatched(Credentials credentials){
         return true; //written temprary
     }

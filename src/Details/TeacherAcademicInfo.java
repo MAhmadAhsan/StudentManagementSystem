@@ -31,6 +31,6 @@ public class TeacherAcademicInfo {
     // toStirng
     @Override
     public String toString() {
-        return "Courses Taught :"+ getCoursesTaught() + "\nQualification :"+  getQualification();
+        return "Teacher Academic Info:" + "\nCourses Taught :"+ getCoursesTaught() + "\nQualification :"+  getQualification();
     }
 }

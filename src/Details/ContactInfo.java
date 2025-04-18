@@ -29,6 +29,6 @@ public class ContactInfo {
 
     @Override
     public  String toString(){
-        return "\nPhone: " + getPhoneNumber() + "\nAddress: " + getAddress();
+        return "Contact Info:" + "\nPhone:" + getPhoneNumber() + "\nAddress:" + getAddress();
    }
 }

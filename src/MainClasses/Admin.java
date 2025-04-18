@@ -6,9 +6,9 @@ import DataAcessLayer.*;
 import Details.PersonalInfo;
 import org.jetbrains.annotations.NotNull;
 
-import static DataAcessLayer.StudentData.writeNewStudentDirectory;
+import static DataAcessLayer.StudentData.*;
 
-public class Admin extends Person implements AdminFunctions {
+public class Admin extends User implements AdminFunctions {
     private boolean isLoggedIn = false;
     // Constructors
     public Admin(){}
@@ -52,10 +52,10 @@ public class Admin extends Person implements AdminFunctions {
     public void removeTeacher(Teacher teacher){
     }
     public boolean addNewStudent(Student student){
-        return writeNewStudentDirectory(student.getStudentAcademicInfo().getRollNo(), student.getStudentAcademicInfo().getClassGrade());
+        return writeNewStudentDirectory(student);
     }
-    public void removeStudent(Student student){
-
+    public boolean removeStudent(Student student){
+        return deleteStudentDirectory(student.getStudentAcademicInfo().getRollNo(), student.getStudentAcademicInfo().getClassGrade());
     }
     public boolean makeClass(String className){
         if(className == null || className.isEmpty()){
@@ -63,15 +63,19 @@ public class Admin extends Person implements AdminFunctions {
         }
         return StudentData.writeNewClass(className);
     }
-    public void removeClass(String className){
+    public boolean removeClass(String className){
         if(className == null || className.isEmpty()){
             throw new NullPointerException("You must specify a class name");
         }
-        StudentData.deleteClass(className);
+        return StudentData.deleteClass(className);
     }
     public boolean isRegistered(){
         return !AdminData.readAdminUsername().isEmpty() && !AdminData.readAdminPassword().isEmpty();
     }
-
-
+    public String currentClasses(){
+        return getAllClasses();
+    }
+    public String viewStudentDetail(String classGrade, String rollNo){
+        return readStudentDetails(classGrade,rollNo);
+    }
 }

@@ -4,15 +4,15 @@ import Details.ContactInfo;
 import Details.Credentials;
 import Details.PersonalInfo;
 
-public abstract class Person {
+public abstract class User {
 
     private PersonalInfo personalInfo;
     private ContactInfo contactInfo;
     private Credentials credentials;
 
     // Constructor
-    public Person(){}
-    public Person(PersonalInfo personalInfo, ContactInfo contactInfo, Credentials credentials) {
+    public User(){}
+    public User(PersonalInfo personalInfo, ContactInfo contactInfo, Credentials credentials) {
         this.setPersonalInfo(personalInfo);
         this.setContactInfo(contactInfo);
         this.setCredentials(credentials);
@@ -42,6 +42,6 @@ public abstract class Person {
 
     // toString
     public String toString() {
-        return getPersonalInfo() + "\n " + getContactInfo() + "\n " + getCredentials();
+        return getPersonalInfo() + "\n\n" + getContactInfo() + "\n";
     }
 }

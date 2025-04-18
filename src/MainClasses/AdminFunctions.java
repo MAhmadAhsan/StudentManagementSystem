@@ -1,5 +1,4 @@
 package MainClasses;
-
 import Details.Credentials;
 
 public interface AdminFunctions {
@@ -8,8 +7,10 @@ public interface AdminFunctions {
     void addNewTeacher(Teacher teacher);
     void removeTeacher(Teacher teacher);
     boolean addNewStudent(Student student);
-    void removeStudent(Student student);
+    boolean removeStudent(Student student);
     boolean makeClass(String className);
-    void removeClass(String className);
+    boolean removeClass(String className);
     boolean isRegistered();
+    String currentClasses();
+    String viewStudentDetail(String classGrade, String rollNo);
 }
