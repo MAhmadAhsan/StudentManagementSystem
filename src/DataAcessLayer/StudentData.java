@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class StudentData {
-    public static boolean writeNewClass(String classGrade) {
+    public static boolean writeNewClassGrade(String classGrade) {
         Path classDirectoryPath = Paths.get("src", "Database", "SchoolClasses", classGrade);
         File classDirectory = classDirectoryPath.toFile();
         if (classDirectory.exists()) {
@@ -20,20 +20,18 @@ public class StudentData {
             return classDirectory.mkdirs();
         }
     }
-    public static boolean deleteClass(String classGrade) {
+    public static boolean deleteClassGrade(String classGrade) {
         Path classDirectoryPath = Paths.get("src", "Database", "SchoolClasses", classGrade);
         File classDirectory = classDirectoryPath.toFile();
 
         if (!classDirectory.exists()) {
-            System.out.println("Class directory does not exist.");
             return false;
         }
 
         try {
-            deleteRecursively(classDirectory.toPath());
+            deleteRecursively(classDirectoryPath);
             return true;
         } catch (IOException e) {
-            System.out.println("Failed to delete Class directory: " + e.getMessage());
             return false;
         }
     }
@@ -84,18 +82,7 @@ public class StudentData {
             return false;
         }
     }
-    private static void deleteRecursively(Path path) throws IOException {
-        if (Files.isDirectory(path)) {
-            try (DirectoryStream<Path> entries = Files.newDirectoryStream(path)) {
-                for (Path entry : entries) {
-                    deleteRecursively(entry);
-                }
-            }
-        }
-        Files.delete(path);
-    }
     public static boolean isThisStudentExists(String rollNo, String classGrade) {
-
         Path classGradeDirectoryPath = Paths.get("src", "Database", "SchoolClasses", classGrade);
         Path rollNoDirectoryPath = classGradeDirectoryPath.resolve(rollNo);
 
@@ -121,7 +108,7 @@ public class StudentData {
         File classDirectory = classDirectoryPath.toFile();
 
         if (!classDirectory.exists() || !classDirectory.isDirectory()) {
-            return "Nothing here ;)"; // No classes exist yet
+            return "No classes exists"; // No classes exist yet
         }
 
         StringBuilder classList = new StringBuilder();
@@ -160,8 +147,16 @@ public class StudentData {
 
         return studentInfo.toString();
     }
-
-
+    private static void deleteRecursively(Path path) throws IOException {
+        if (Files.isDirectory(path)) {
+            try (DirectoryStream<Path> entries = Files.newDirectoryStream(path)) {
+                for (Path entry : entries) {
+                    deleteRecursively(entry);
+                }
+            }
+        }
+        Files.delete(path);
+    }
 }
 
 

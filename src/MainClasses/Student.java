@@ -9,7 +9,7 @@ public class Student extends User implements StudentFunctions {
      private StudentAcademicInfo studentAcademicInfo;
      // Constructors
      public Student(){}
-     public Student(PersonalInfo personalInfo, ContactInfo contactInfo, Credentials credentials, StudentAcademicInfo studentAcademicInfo) {
+     public Student(PersonalInfo personalInfo, ContactInfo contactInfo, StudentAcademicInfo studentAcademicInfo, Credentials credentials) {
           super(personalInfo, contactInfo, credentials);
           setStudentAcademicInfo(studentAcademicInfo);
      }

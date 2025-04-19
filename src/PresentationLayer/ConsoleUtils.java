@@ -1,42 +1,14 @@
 package PresentationLayer;
-import Details.StudentAcademicInfo;
-import Details.ContactInfo;
-import Details.Credentials;
+import Details.*;
 import java.util.Scanner;
-
-import Functions.*;
-import MainClasses.Admin;
-import Details.PersonalInfo;
-import MainClasses.Student;
+import MainClasses.*;
 
 public class ConsoleUtils {
 
     public static void title() {
-        System.out.println("=====================================");
+        System.out.println("====================================");
         System.out.println("     STUDENT MANAGEMENT SYSTEM       ");
-        System.out.println("=====================================");
-    }
-    public static void addLine() {
-        System.out.println();
-    }
-    public static void addLine(int n) {
-        for (int i = 0; i < n; i++) {
-            System.out.println();
-        }
-    }
-    public static Admin registrationForm(Admin admin){
-        do{
-            try {
-                admin.setCredentials(credentialsForm("Register", "Admin"));
-                admin.register(admin.getCredentials());
-                System.out.println("Admin registered.");
-            }catch (IllegalArgumentException e){
-                System.err.println(e.getMessage());
-            }catch (NullPointerException e){
-                System.err.println(e.getMessage());
-            }
-        }while(!admin.isRegistered());
-        return admin;
+        System.out.println("====================================");
     }
     public static int userLoginTypeForm() {
         Scanner scanner = new Scanner(System.in);
@@ -44,15 +16,15 @@ public class ConsoleUtils {
 
         while (true) {
             try {
-                System.out.println("====================================");
-                System.out.println("Login");
-                System.out.println("How do you want to login? Type respective number");
-                System.out.println("1) As an Admin");
-                System.out.println("2) As a Student");
-                System.out.println("3) As a Teacher");
-                System.out.println("0) Log out");
+                System.out.print("====================================\n" +
+                        "Login\n" +
+                        "How do you want to login? Type respective number\n" +
+                        "1) As an Admin\n" +
+                        "2) As a Student\n" +
+                        "3) As a Teacher\n" +
+                        "0) Log out\n" +
+                        "Enter your choice (0-3): ");
 
-                System.out.println("Enter your choice (0-3): ");
                 String input = scanner.nextLine(); // Read full line to avoid scanner issues
                 choice = Integer.parseInt(input);
 
@@ -72,19 +44,19 @@ public class ConsoleUtils {
 
         while (true) {
             try {
-                System.out.println("====================================");
-                System.out.println("Select Function");
-                System.out.println("What function would you like to select?");
-                System.out.println("1) Make a new class");
-                System.out.println("2) Remove a current class");
-                System.out.println("3) Add a new Student");
-                System.out.println("4) Remove a current Student");
-                System.out.println("5) Add a new Teacher");
-                System.out.println("6) Remove a Teacher");
-                System.out.println("7) See all available classes");
-                System.out.println("8) View Student Detail");
-                System.out.println("0) Go Back");
-                System.out.print("Enter your choice (0-8): ");
+                System.out.print("====================================\n" +
+                                "Select Function\n" +
+                                "What function would you like to select?\n" +
+                                "1) Make a new class\n" +
+                                "2) Remove a current class\n" +
+                                "3) Add a new Student\n" +
+                                "4) Remove a current Student\n" +
+                                "5) Add a new Teacher\n" +
+                                "6) Remove a Teacher\n" +
+                                "7) See all available classes\n" +
+                                "8) View Student Detail\n" +
+                                "0) Go Back\n" +
+                                "Enter your choice (0-8): ");
 
                 String input = scanner.nextLine();
                 choice = Integer.parseInt(input);
@@ -121,9 +93,9 @@ public class ConsoleUtils {
                     return null;
                 }
                 credentials.setPassword(password);
-                break; // break if successful
+                break;
             } catch (IllegalArgumentException e) {
-                System.err.println("Invalid username: " + e.getMessage());
+                System.err.println("Invalid: " + e.getMessage());
             }
         }
 

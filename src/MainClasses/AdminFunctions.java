@@ -11,6 +11,6 @@ public interface AdminFunctions {
     boolean makeClass(String className);
     boolean removeClass(String className);
     boolean isRegistered();
-    String currentClasses();
+    String viewCurrentClasses();
     String viewStudentDetail(String classGrade, String rollNo);
 }

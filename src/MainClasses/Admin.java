@@ -40,13 +40,16 @@ public class Admin extends User implements AdminFunctions {
         AdminData.writeAdminUsername(credentials.getUsername());
         AdminData.writeAdminPassword(credentials.getPassword());
     }
-    public boolean isCredentialsMatched(@NotNull Credentials credentials) throws NullPointerException {
-        if (credentials == null) {
-            throw new NullPointerException("credentials is null");
-        }
-        return credentials.getUsername().equals(AdminData.readAdminUsername()) &&
-                credentials.getPassword().equals(AdminData.readAdminPassword());
+    public boolean isCredentialsMatched(@NotNull Credentials credentials) {
+        String storedUsername = AdminData.readAdminUsername();
+        String storedPassword = AdminData.readAdminPassword();
+
+        return storedUsername != null &&
+                storedPassword != null &&
+                credentials.getUsername().equals(storedUsername) &&
+                credentials.getPassword().equals(storedPassword);
     }
+
     public void addNewTeacher(Teacher teacher){
     }
     public void removeTeacher(Teacher teacher){
@@ -57,22 +60,26 @@ public class Admin extends User implements AdminFunctions {
     public boolean removeStudent(Student student){
         return deleteStudentDirectory(student.getStudentAcademicInfo().getRollNo(), student.getStudentAcademicInfo().getClassGrade());
     }
-    public boolean makeClass(String className){
-        if(className == null || className.isEmpty()){
+    public boolean makeClass(String classGrade){
+        if(classGrade == null || classGrade.isEmpty()){
             throw new NullPointerException("You must specify a class name");
         }
-        return StudentData.writeNewClass(className);
+        return StudentData.writeNewClassGrade(classGrade);
     }
-    public boolean removeClass(String className){
-        if(className == null || className.isEmpty()){
+    public boolean removeClass(String classGrade){
+        if(classGrade == null || classGrade.isEmpty()){
             throw new NullPointerException("You must specify a class name");
         }
-        return StudentData.deleteClass(className);
+        return StudentData.deleteClassGrade(classGrade);
     }
-    public boolean isRegistered(){
-        return !AdminData.readAdminUsername().isEmpty() && !AdminData.readAdminPassword().isEmpty();
+    public boolean isRegistered() {
+        String username = AdminData.readAdminUsername();
+        String password = AdminData.readAdminPassword();
+        return username != null && !username.isBlank() &&
+                password != null && !password.isBlank();
     }
-    public String currentClasses(){
+
+    public String viewCurrentClasses(){
         return getAllClasses();
     }
     public String viewStudentDetail(String classGrade, String rollNo){

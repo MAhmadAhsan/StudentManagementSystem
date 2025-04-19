@@ -1,4 +1,3 @@
-import java.nio.channels.ScatteringByteChannel;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import Details.Credentials;
@@ -13,17 +12,19 @@ public class Main {
         registerAdmin();
         loginUser();
     }
+
     public static void registerAdmin() {
         Admin admin = new Admin();
-        // Register Admin
 
-        if(!admin.isRegistered()) {
-            while(!admin.isRegistered()){
-                try{
-                    admin = ConsoleUtils.registrationForm(admin);
-                } catch (Exception e){
-                    e.getMessage();
-                }
+        while (!admin.isRegistered()) {
+            try {
+                Credentials credentials = ConsoleUtils.credentialsForm("Register", "Admin");
+                admin.register(credentials);
+                System.out.println("Admin registered");
+            } catch (NullPointerException e) {
+                System.out.println("Error: " + e.getMessage());
+            } catch (Exception e) {
+                System.out.println("Unexpected error: " + e.getMessage());
             }
         }
     }
@@ -33,15 +34,22 @@ public class Main {
             try{
                 switch (userLoginTypeForm()) {
                     case 1: {
-                        Admin admin = new Admin();
-                        Credentials credentials = credentialsForm("Login", "Admin");
+                        while(true){
+                            Admin admin = new Admin();
+                            Credentials credentials = credentialsForm("Login", "Admin");
+                            if(credentials == null){
+                                break;
+                            }
+                            if (admin.isCredentialsMatched(credentials)) {
+                                admin.setCredentials(credentials);
+                                System.out.println("Admin logged in");
+                                loggedInAdmin(admin);
+                                keepRunning = false;
+                                break;
+                            } else {
+                                System.out.println("Invalid Admin credentials. Try again.");
+                            }
 
-                        if (admin.isCredentialsMatched(credentials)) {
-                            admin.setCredentials(credentials);
-                            loggedInAdmin(admin);
-                            keepRunning = false;
-                        } else {
-                            System.out.println("Invalid Admin credentials. Try again.");
                         }
                         break;
                     }
@@ -150,7 +158,7 @@ public class Main {
                         break;
                     case 7:
                         System.out.println("All available classes...");
-                        System.out.println(admin.currentClasses());
+                        System.out.println(admin.viewCurrentClasses());
                         break;
                     case 8:
                         Student student = new Student();
@@ -204,7 +212,7 @@ public class Main {
     }
     public static void loggedInStudent(Student student){}
     public static void logOut(){
-        System.out.println("Logging out");
+        System.out.println("Logging out...");
         System.exit(0);
     }
 }
