@@ -22,7 +22,7 @@ public class ConsoleUtils {
                         "1) As an Admin\n" +
                         "2) As a Student\n" +
                         "3) As a Teacher\n" +
-                        "0) Log out\n" +
+                        "0) Exit App\n" +
                         "Enter your choice (0-3): ");
 
                 String input = scanner.nextLine(); // Read full line to avoid scanner issues
@@ -55,7 +55,7 @@ public class ConsoleUtils {
                                 "6) Remove a Teacher\n" +
                                 "7) See all available classes\n" +
                                 "8) View Student Detail\n" +
-                                "0) Go Back\n" +
+                                "0) Logout\n" +
                                 "Enter your choice (0-8): ");
 
                 String input = scanner.nextLine();
@@ -130,7 +130,6 @@ public class ConsoleUtils {
         // Personal Info
         PersonalInfo personalInfo = personalInfoForm();
         if (personalInfo == null) {
-            System.out.println("Cancelled. Returning from student form...");
             return null;
         }
         student.setPersonalInfo(personalInfo);
@@ -138,7 +137,6 @@ public class ConsoleUtils {
         // Contact Info
         ContactInfo contactInfo = contactInfoForm();
         if (contactInfo == null) {
-            System.out.println("Cancelled. Returning from student form...");
             return null;
         }
         student.setContactInfo(contactInfo);
@@ -150,8 +148,6 @@ public class ConsoleUtils {
             return null;
         }
         student.setStudentAcademicInfo(academicInfo);
-
-        System.out.println("Student details captured successfully.");
         System.out.println("====================================");
         return student;
     }
@@ -161,7 +157,7 @@ public class ConsoleUtils {
         StudentAcademicInfo academicInfo = new StudentAcademicInfo();
 
         System.out.println("====================================");
-        System.out.println("Enter Student Deletion Info (type '<' to go back):");
+        System.out.println("Enter Student Info (type '<' to go back):");
 
         // Class Grade input
         while (true) {
@@ -203,14 +199,12 @@ public class ConsoleUtils {
         PersonalInfo personalInfo = new PersonalInfo();
 
         System.out.println("====================================");
-        System.out.println("Enter Personal Info (type '<' to go back):");
 
         // Name input
         while (true) {
             System.out.print("Enter Name: ");
             String name = scanner.nextLine().trim();
             if (name.equals("<")) {
-                System.out.println("Going back...");
                 return null;
             }
             try {

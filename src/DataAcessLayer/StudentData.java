@@ -1,4 +1,5 @@
 package DataAcessLayer;
+import Database.DatabaseFunctions;
 import Details.ContactInfo;
 import Details.PersonalInfo;
 import Details.StudentAcademicInfo;
@@ -9,153 +10,116 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class StudentData {
+    public static final Path schoolClasssesPath = Paths.get("src","Database","SchoolClasses");
+
     public static boolean writeNewClassGrade(String classGrade) {
-        Path classDirectoryPath = Paths.get("src", "Database", "SchoolClasses", classGrade);
-        File classDirectory = classDirectoryPath.toFile();
+        // Resolves the path to the class grade directory
+        Path classGradeDirPath = schoolClasssesPath.resolve(classGrade);
+
+        // Converts the Path object to a File object for checking existence
+        File classDirectory = classGradeDirPath.toFile();
+
+        // Checks if the directory exists
         if (classDirectory.exists()) {
             return false;
         } else {
             return classDirectory.mkdirs();
         }
     }
+
+    /**
+     * Deletes the directory corresponding to the given class grade and its contents.
+     *
+     * @param classGrade the name of the class grade directory to delete
+     * @return true if the class grade directory was successfully deleted, false otherwise
+     */
     public static boolean deleteClassGrade(String classGrade) {
-        Path classDirectoryPath = Paths.get("src", "Database", "SchoolClasses", classGrade);
-        File classDirectory = classDirectoryPath.toFile();
+        // Resolves the path to the class grade directory
+        Path classGradeDirPath = schoolClasssesPath.resolve(classGrade);
 
-        if (!classDirectory.exists()) {
-            return false;
-        }
+        // Converts the Path object to a File object for checking existence
+        File classGradeDir = classGradeDirPath.toFile();
 
-        try {
-            deleteRecursively(classDirectoryPath);
-            return true;
-        } catch (IOException e) {
+        // Checks if the directory exists
+        if (classGradeDir.exists()) {
+            try {
+                // Attempts to delete the directory and its contents recursively
+                return DatabaseFunctions.deleteFileRecursively(classGradeDirPath);
+            } catch (Exception e) {
+                // Returns false if an error occurs during the deletion process
+                return false;
+            }
+        } else {
+            // Returns false if the directory does not exist
             return false;
         }
     }
+
     public static boolean writeNewStudentDirectory(Student student) {
         String classGrade = student.getStudentAcademicInfo().getClassGrade();
         String rollNo = student.getStudentAcademicInfo().getRollNo();
-        Path studentDirectoryPath = Paths.get("src", "Database", "SchoolClasses", classGrade, rollNo);
+
+        Path studentDirectoryPath = schoolClasssesPath.resolve(classGrade, rollNo);
+
         File StudentDirectory = studentDirectoryPath.toFile();
-        if(isThisStudentExists(rollNo, classGrade)) {
+        if(StudentDirectory.exists()) {
             return false;
         }else if (StudentDirectory.mkdirs()){
-            Path studentDirPath = Paths.get("src", "Database", "SchoolClasses", classGrade, rollNo);
-
-            try {
-                Files.createDirectories(studentDirPath);
-            } catch (IOException e) {
-                System.out.println("Failed to create directories: " + e.getMessage());
-                return false;
-            }
-
-            Path studentFilePath = studentDirPath.resolve("info.txt");
-
+            Path studentFilePath = studentDirectoryPath.resolve("info.txt");
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(studentFilePath.toFile()))) {
                 writer.write(student.toString());
                 return true;
             } catch (IOException e) {
-                System.out.println("Failed to write student info: " + e.getMessage());
                 return false;
             }
         } else{
             return false;
         }
     }
+
     public static boolean deleteStudentDirectory( String classGrade, String rollNo) {
-        Path studentDirectoryPath = Paths.get("src", "Database", "SchoolClasses", classGrade, rollNo);
-        File studentDirectory = studentDirectoryPath.toFile();
+        // Resolves the path to the class grade directory
+        Path studentDirPath = schoolClasssesPath.resolve(classGrade, rollNo);
 
-        if (!studentDirectory.exists()) {
-            System.out.println("Student directory does not exist.");
-            return false;
-        }
+        // Converts the Path object to a File object for checking existence
+        File studentDir = studentDirPath.toFile();
 
-        try {
-            deleteRecursively(studentDirectory.toPath());
-            return true;
-        } catch (IOException e) {
-            System.out.println("Failed to delete student directory: " + e.getMessage());
-            return false;
-        }
-    }
-    public static boolean isThisStudentExists(String rollNo, String classGrade) {
-        Path classGradeDirectoryPath = Paths.get("src", "Database", "SchoolClasses", classGrade);
-        Path rollNoDirectoryPath = classGradeDirectoryPath.resolve(rollNo);
-
-        File classGradeDirectory = classGradeDirectoryPath.toFile();
-        File rollNoDirectory = rollNoDirectoryPath.toFile();
-        try {
-            if (classGradeDirectory.exists() && classGradeDirectory.isDirectory()) {
-                // Get canonical paths to resolve any symbolic links or relative paths
-                File parentCanonical = classGradeDirectory.getCanonicalFile();
-                File childCanonical = rollNoDirectory.getCanonicalFile();
-
-                // Check if the child is actually within the parent directory
-                return childCanonical.getPath().startsWith(parentCanonical.getPath() + File.separator)
-                        && childCanonical.exists();
+        // Checks if the directory exists
+        if (studentDir.exists()) {
+            try {
+                // Attempts to delete the directory and its contents recursively
+                return DatabaseFunctions.deleteFileRecursively(studentDirPath);
+            } catch (Exception e) {
+                // Returns false if an error occurs during the deletion process
+                return false;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            // Returns false if the directory does not exist
+            return false;
         }
-        return false;
     }
     public static String getAllClasses() {
-        Path classDirectoryPath = Paths.get("src", "Database", "SchoolClasses");
+        Path classDirectoryPath = schoolClasssesPath;
         File classDirectory = classDirectoryPath.toFile();
 
         if (!classDirectory.exists() || !classDirectory.isDirectory()) {
-            return "No classes exists"; // No classes exist yet
+            return null; // No classes exist yet
         }
-
-        StringBuilder classList = new StringBuilder();
-        File[] classFolders = classDirectory.listFiles(File::isDirectory);
-
-        if (classFolders != null) {
-            for (int i = 0; i < classFolders.length; i++) {
-                classList.append(classFolders[i].getName());
-                if (i < classFolders.length - 1) {
-                    classList.append("\n");
-                }
-            }
-        }
-
-        return classList.toString();
+        return DatabaseFunctions.allChildFile(classDirectoryPath);
     }
     public static String readStudentDetails(String classGrade, String rollNo) {
-        Path studentFilePath = Paths.get("src", "Database", "SchoolClasses", classGrade, rollNo, "info.txt");
+        Path studentFilePath = schoolClasssesPath.resolve(classGrade, rollNo,"info.txt");
         File studentFile = studentFilePath.toFile();
 
         if (!studentFile.exists()) {
-            System.out.println("Student file does not exist.");
             return null;
         }
-
-        StringBuilder studentInfo = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader(studentFile))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                studentInfo.append(line).append("\n");
-            }
-        } catch (IOException e) {
-            System.out.println("Failed to read student info: " + e.getMessage());
-            return null;
-        }
-
-        return studentInfo.toString();
-    }
-    private static void deleteRecursively(Path path) throws IOException {
-        if (Files.isDirectory(path)) {
-            try (DirectoryStream<Path> entries = Files.newDirectoryStream(path)) {
-                for (Path entry : entries) {
-                    deleteRecursively(entry);
-                }
-            }
-        }
-        Files.delete(path);
+        return DatabaseFunctions.readFile(studentFilePath);
     }
 }
 

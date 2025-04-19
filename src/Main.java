@@ -12,7 +12,6 @@ public class Main {
         registerAdmin();
         loginUser();
     }
-
     public static void registerAdmin() {
         Admin admin = new Admin();
 
@@ -83,7 +82,7 @@ public class Main {
                     }
 
                     case 0:
-                        logOut();
+                        exitApp();
                         keepRunning = false;
                         break;
 
@@ -171,7 +170,7 @@ public class Main {
                         break;
                 }
             } catch (IllegalArgumentException | NullPointerException e) {
-                System.err.println("Error: " + e.getMessage());
+                System.out.println("Select again");
             } catch (InputMismatchException e) {
                 System.err.println("Invalid input. Please enter valid values.");
                 scanner.nextLine(); // clear buffer
@@ -211,8 +210,8 @@ public class Main {
 //        }
     }
     public static void loggedInStudent(Student student){}
-    public static void logOut(){
-        System.out.println("Logging out...");
+    public static void exitApp(){
+        System.out.println("Exited Successfully...");
         System.exit(0);
     }
 }
