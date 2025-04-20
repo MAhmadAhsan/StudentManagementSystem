@@ -20,7 +20,7 @@ public class AdminData {
      */
     public static String readAdminPassword() {
         // Resolves the path to the password file
-        Path path = adminPath.resolve("Credentials").resolve("password.txt");
+        Path path = adminPath.resolve("Credentials","password.txt");
         return DatabaseFunctions.readFile(path);
     }
 

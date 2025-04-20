@@ -101,18 +101,4 @@ public class DatabaseFunctions {
         return classList.toString();
     }
 
-    /**
-     * Creates a directory at the specified path if it doesn't exist.
-     *
-     * @param path the directory path
-     * @return true if the directory was created, false if it already exists
-     * @throws IOException if an I/O error occurs
-     */
-    public static boolean createDirectory(Path path) throws IOException {
-        if (Files.exists(path)) {
-            return false; // Directory already exists
-        }
-        Files.createDirectories(path); // Create the directory and any necessary parent directories
-        return true;
-    }
 }

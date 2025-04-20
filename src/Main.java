@@ -32,7 +32,8 @@ public class Main {
         while (keepRunning) {
             try{
                 switch (userLoginTypeForm()) {
-                    case 1: {
+                    // Login as Admin
+                    case 1 -> {
                         while(true){
                             Admin admin = new Admin();
                             Credentials credentials = credentialsForm("Login", "Admin");
@@ -48,47 +49,60 @@ public class Main {
                             } else {
                                 System.out.println("Invalid Admin credentials. Try again.");
                             }
-
                         }
-                        break;
                     }
 
-                    case 2: {
-                        Teacher teacher = new Teacher();
-                        Credentials credentials = credentialsForm("Login", "Teacher");
+                    // Login as Teacher
+                    case 2 -> {
+                        while(true){
+                            Teacher teacher = new Teacher();
+                            Credentials credentials = credentialsForm("Login", "Teacher");
 
-                        if (teacher.isCredentialsMatched(credentials)) {
-                            teacher.setCredentials(credentials);
-                            loggedInTeacher(teacher);
-                            keepRunning = false;
-                        } else {
-                            System.out.println("Invalid Teacher credentials. Try again.");
+                            if(credentials == null){
+                                break;
+                            }
+
+                            if (teacher.isCredentialsMatched(credentials)) {
+                                teacher.setCredentials(credentials);
+                                System.out.println("Teacher logged in");
+                                loggedInTeacher(teacher);
+                                keepRunning = false;
+                            } else {
+                                System.out.println("Invalid Teacher credentials. Try again.");
+                            }
                         }
-                        break;
                     }
 
-                    case 3: {
-                        Student student = new Student();
-                        Credentials credentials = credentialsForm("Login", "Student");
+                    // Login as Student
+                    case 3 -> {
+                        while(true){
+                            Student student = new Student();
+                            Credentials credentials = credentialsForm("Login", "Student");
 
-                        if (student.isCredentialsMatched(credentials)) {
-                            student.setCredentials(credentials);
-                            loggedInStudent(student);
-                            keepRunning = false;
-                        } else {
-                            System.err.println("Invalid Student credentials. Try again.");
+                            if(credentials == null){
+                                break;
+                            }
+                            if (student.isCredentialsMatched(credentials)) {
+                                student.setCredentials(credentials);
+
+                                System.out.println("Student logged in");
+                                loggedInStudent(student);
+                                keepRunning = false;
+                            } else {
+                                System.err.println("Invalid Student credentials. Try again.");
+                            }
                         }
-                        break;
                     }
 
-                    case 0:
+                    // Exit app
+                    case 0 -> {
                         exitApp();
                         keepRunning = false;
-                        break;
+                    }
 
-                    default:
+                    default -> {
                         System.err.println("Invalid choice. Please try again.");
-                        break;
+                    }
                 }
             }catch (Exception e){
                 e.getMessage();
@@ -104,70 +118,172 @@ public class Main {
                 int choice = ConsoleUtils.adminFunctionSelector();
 
                 switch (choice) {
-                    case 0:
+                    // Logout
+                    case 0 -> {
                         stayLoggedIn = false;
                         loginUser();
-                        break;
+                    }
 
-                    case 1:
-                        if (admin.makeClass(ConsoleUtils.classNameField())) {
+                    // Classes Manager
+                    // Make a new class
+                    case 1 -> {
+                        if (admin.makeClass(ConsoleUtils.classGradeField())) {
                             System.out.println("Class added.");
                         } else {
                             System.out.println("Class already exists.");
                         }
-                        break;
+                    }
 
-                    case 2:
+                    // Remove a class
+                    case 2 -> {
                         System.out.println("Enter class name to remove:");
                         if (admin.removeClass(scanner.nextLine())) {
                             System.out.println("Class removed.");
                         } else {
                             System.out.println("Class does not exist.");
                         }
-                        break;
+                    }
 
-                    case 3:
+                    // View all created classes
+                    case 3 -> {
+                        System.out.println("All available classes...");
+                        System.out.println(admin.viewCurrentClasses());
+                    }
+
+                    // Manage Students
+                    // Add a new student
+                    case 4 -> {
                         System.out.println("Enter student details to add:");
-                        if (admin.addNewStudent(ConsoleUtils.studentForm())) {
-                            System.out.println("Student added.");
+                        Student student = ConsoleUtils.studentInfoForm();
+                        Credentials credentials = student.generateStudentCredentials();
+                        System.out.println(credentials);
+                        student.setCredentials(credentials);
+                        if (admin.addNewStudent(student)) {
+                            System.out.println("Student added: " + student.getCredentials().getUsername());
+                            System.out.println("Student password: " + student.getCredentials().getPassword());
                         } else {
                             System.err.println("Student not added.");
                         }
-                        break;
+                    }
 
-                    case 4:
+                    // Remove a current Student
+                    case 5 -> {
                         System.out.println("Enter student Class and Roll no to remove:");
                         if (admin.removeStudent(ConsoleUtils.classGradeAndRollNoForm())) {
                             System.out.println("Student removed.");
                         } else {
                             System.err.println("Student not found or not removed.");
                         }
-                        break;
+                    }
 
-                    case 5:
-                        System.out.println("Enter teacher details to add:");
-                        // Add logic here or placeholder
-                        System.out.println("Coming soon...");
-                        break;
-
-                    case 6:
-                        System.out.println("Enter teacher details to remove:");
-                        // Add logic here or placeholder
-                        System.out.println("Coming soon...");
-                        break;
-                    case 7:
-                        System.out.println("All available classes...");
-                        System.out.println(admin.viewCurrentClasses());
-                        break;
-                    case 8:
+                    //View Student Info
+                    case 6 -> {
                         Student student = new Student();
                         System.out.println("Enter student Class and Roll no to view:");
                         student = ConsoleUtils.classGradeAndRollNoForm();
                         System.out.println(admin.viewStudentDetail(student.getStudentAcademicInfo().getClassGrade(),student.getStudentAcademicInfo().getRollNo()));
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please try again.");
-                        break;
+                    }
+
+                    // Recover student credentials
+                    case 7 -> {
+                        Student student = ConsoleUtils.classGradeAndRollNoForm();
+
+                    }
+
+                    // view All Students in a class
+                    case 8 ->{
+                        System.out.println("All Students in a Class");
+                        System.out.println(admin.viewStudentsInClass(ConsoleUtils.classGradeField()));
+                    }
+
+                    // Manage Teachers
+                    // Add a new teacher
+                    case 9 -> {
+                        System.out.println("Enter teacher details to add:");
+                        // Add logic here or placeholder
+                        System.out.println("Coming soon...");
+                    }
+
+                    // Remove a teacher
+                    case 10 -> {
+                        System.out.println("Enter teacher details to remove:");
+                        // Add logic here or placeholder
+                        System.out.println("Coming soon...");
+                    }
+
+                    // View teacher details
+                    case 11 -> {
+                        System.out.println("View teacher details coming soon");
+                    }
+
+                    // Recover teacher Credentials
+                    case 12 -> {
+                        System.out.println("Recover teacher Credentials coming soon");
+                    }
+
+                    // View all teachers
+                    case 13 -> {
+                        System.out.println("View all teachers coming soon");
+                    }
+
+                    default -> System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (IllegalArgumentException | NullPointerException e) {
+                e.printStackTrace();
+            } catch (InputMismatchException e) {
+                System.err.println("Invalid input. Please enter valid values.");
+                scanner.nextLine(); // clear buffer
+            }
+        }
+    }
+    public static void loggedInTeacher(Teacher teacher){
+        Scanner scanner = new Scanner(System.in);
+        boolean stayLoggedIn = true;
+        while (stayLoggedIn) {
+            try{
+                int choice = ConsoleUtils.teacherFunctionSelector();
+                switch (choice) {
+                    // Logout
+                    case 0 -> {
+                        stayLoggedIn = false;
+                        loginUser();
+                    }
+
+                    // View Student Info
+                    case 1 -> {
+                        System.out.println("Coming soon...");
+                    }
+
+                    // View All Students in a class
+                    case 2 -> {
+                        System.out.println("Coming soon...");
+                    }
+
+                    // View all created classes
+                    case 3 -> {
+                        System.out.println("Coming soon...");
+                    }
+
+                    // Upload class Attendance
+                    case 4 -> {
+                        System.out.println("Coming soon...");
+                    }
+
+                    // View class Attendance
+                    case 5 -> {
+                        System.out.println("Coming soon...");
+                    }
+
+                    // Upload class Grades
+                    case 6 -> {}
+
+
+                    // View class Grades
+                    case 7 -> {
+                        System.out.println("Coming soon...");
+                    }
+
+                    default -> System.out.println("Invalid choice. Please try again.");
                 }
             } catch (IllegalArgumentException | NullPointerException e) {
                 System.out.println("Select again");
@@ -176,38 +292,6 @@ public class Main {
                 scanner.nextLine(); // clear buffer
             }
         }
-    }
-    public static void loggedInTeacher(Teacher teacher){
-//        Scanner scanner = new Scanner(System.in);
-//        try {
-//            switch (ConsoleUtils.studentFunctionSelector()) {
-//                case 1:
-//                    System.out.println("Add class name to add");
-//                    break;
-//                case 2:
-//                    System.out.println("Add class name to remove");
-//                    break;
-//                case 3:
-//                    System.out.println("Add student details to add");
-//
-//                    break;
-//                case 4:
-//                    System.out.println("dd student details to remove");
-//                    break;
-//                case 5:
-//                    System.out.println("Add teacher details to add");
-//                    break;
-//                case 6:
-//                    System.out.println("Add teacher details to remove");
-//                    break;
-//            }
-//        } catch (IllegalArgumentException e) {
-//            System.err.println(e.getMessage());
-//        } catch (NullPointerException e) {
-//            System.err.println(e.getMessage());
-//        } catch(InputMismatchException e){
-//            System.err.println("Invalid input");
-//        }
     }
     public static void loggedInStudent(Student student){}
     public static void exitApp(){

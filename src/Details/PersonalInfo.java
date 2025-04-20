@@ -24,20 +24,28 @@ public class PersonalInfo {
         return age;
     }
     public String getGender() {
-        if (gender == null) {
-            throw new NullPointerException("Gender has not been initialized.");
-        }
         return gender;
     }
     // Setters
     public void setName(String name) {
+        if(name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name should not be empty.");
+        }
         this.name = name;
     }
     public void setAge(int age) {
+        if (age < 0) {
+            throw new IllegalArgumentException("Age should not be negative.");
+        }
         this.age = age;
     }
     public void setGender(String gender) {
-        this.gender = gender;
+        if (gender == null || gender.trim().isEmpty()) {
+            throw new IllegalArgumentException("Gender should not be empty.");
+        }else if (!gender.equalsIgnoreCase("m") && !gender.equalsIgnoreCase("f")){
+            throw new IllegalArgumentException("Gender should be 'm' or 'f'.");
+        }
+        this.gender = gender.toLowerCase();
     }
 
     // toString

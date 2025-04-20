@@ -1,21 +1,15 @@
 package DataAcessLayer;
 import Database.DatabaseFunctions;
-import Details.ContactInfo;
-import Details.PersonalInfo;
-import Details.StudentAcademicInfo;
 import MainClasses.*;
 
 import java.io.*;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+
+import static Database.DatabaseFunctions.writeFile;
 
 public class StudentData {
-    public static final Path schoolClasssesPath = Paths.get("src","Database","SchoolClasses");
+    private static final Path schoolClasssesPath = Paths.get("src","Database","SchoolClasses");
 
     public static boolean writeNewClassGrade(String classGrade) {
         // Resolves the path to the class grade directory
@@ -31,7 +25,6 @@ public class StudentData {
             return classDirectory.mkdirs();
         }
     }
-
     /**
      * Deletes the directory corresponding to the given class grade and its contents.
      *
@@ -59,30 +52,30 @@ public class StudentData {
             return false;
         }
     }
-
-    public static boolean writeNewStudentDirectory(Student student) {
+    public static boolean writeNewStudentDir(Student student) {
         String classGrade = student.getStudentAcademicInfo().getClassGrade();
         String rollNo = student.getStudentAcademicInfo().getRollNo();
 
         Path studentDirectoryPath = schoolClasssesPath.resolve(classGrade, rollNo);
 
         File StudentDirectory = studentDirectoryPath.toFile();
+
         if(StudentDirectory.exists()) {
             return false;
         }else if (StudentDirectory.mkdirs()){
-            Path studentFilePath = studentDirectoryPath.resolve("info.txt");
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(studentFilePath.toFile()))) {
-                writer.write(student.toString());
-                return true;
-            } catch (IOException e) {
-                return false;
-            }
+            Path studentInfoPath = studentDirectoryPath.resolve("info.txt");
+            Path studentPasswordPath = studentDirectoryPath.resolve("password.txt");
+            Path studentUsernamePath = studentDirectoryPath.resolve("username.txt");
+            return writeFile(student.toString(), studentInfoPath) && writeFile(student.getCredentials().getPassword(), studentPasswordPath) && writeFile(student.getCredentials().getUsername(), studentUsernamePath);
         } else{
             return false;
         }
     }
-
-    public static boolean deleteStudentDirectory( String classGrade, String rollNo) {
+//    public static boolean readStudentPassword(String classGrade, String rollNo) {
+//
+//    }
+//    public static boolean writeStudentUsername() {}
+    public static boolean deleteStudentDir( String classGrade, String rollNo) {
         // Resolves the path to the class grade directory
         Path studentDirPath = schoolClasssesPath.resolve(classGrade, rollNo);
 
@@ -103,7 +96,7 @@ public class StudentData {
             return false;
         }
     }
-    public static String getAllClasses() {
+    public static String readAllClasses() {
         Path classDirectoryPath = schoolClasssesPath;
         File classDirectory = classDirectoryPath.toFile();
 
@@ -121,8 +114,12 @@ public class StudentData {
         }
         return DatabaseFunctions.readFile(studentFilePath);
     }
+    public static String readStudentsInClass(String classGrade) {
+        Path classDirectoryPath = schoolClasssesPath.resolve(classGrade);
+        File classDirectory = classDirectoryPath.toFile();
+        if (!classDirectory.exists() || !classDirectory.isDirectory()) {
+            return null; // No classes exist yet
+        }
+        return DatabaseFunctions.allChildFile(classDirectoryPath);
+    }
 }
-
-
-
-

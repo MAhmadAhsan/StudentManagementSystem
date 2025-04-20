@@ -1,5 +1,7 @@
 package Details;
 
+import java.security.SecureRandom;
+
 public class Credentials {
     private String password;
     private String username;
@@ -21,24 +23,29 @@ public class Credentials {
 
     // Setters
     public void setPassword(String password) {
-        if (password.length() >= 8) {
-            this.password = password;
+        if (password.length() <= 8) {
+            throw new IllegalArgumentException("Password should have at least 8 characters.");
+        } else if (password.contains(",")) {
+            throw new IllegalArgumentException("Password should not contain a comma.");
         } else {
-            throw new IllegalArgumentException("Password must be at least 8 characters");
+            this.password = password;
         }
     }
 
     public void setUsername(String username) {
-        if (username.length() >= 3) {
+        if (username.length() <= 3) {
+            throw new IllegalArgumentException("Username should have at least 3 characters.");
+        }else if (username.contains(",")) {
+            throw new IllegalArgumentException("Username should contain comma.");
+        }else{
             this.username = username;
-        } else {
-            throw new IllegalArgumentException("Username must be at least 3 characters");
         }
     }
+
 
     // toString Method
     @Override
     public String toString() {
-        return "Password: " + getPassword() + "\nUsername: " + getUsername();
+        return getUsername()  + "," + getPassword();
     }
 }

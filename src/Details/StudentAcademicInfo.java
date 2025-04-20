@@ -18,9 +18,17 @@ public class StudentAcademicInfo {
         return rollNo;
     }
     public void setRollNo(String rollNo) {
+        if (rollNo == null || rollNo.trim().isEmpty()) {
+            throw new IllegalArgumentException("RollNo should not be empty.");
+        } else if (!rollNo.matches("[0-9]+")) {
+            throw new IllegalArgumentException("RollNo should be a number");
+        }
         this.rollNo = rollNo;
     }
     public void setClassGrade(String classGrade) {
+        if (classGrade == null || classGrade.trim().isEmpty()) {
+            throw new IllegalArgumentException("ClassGrade should not be empty.");
+        }
         this.classGrade = classGrade;
     }
     public String getClassGrade() {
@@ -31,6 +39,9 @@ public class StudentAcademicInfo {
         return courses;
     }
     public void setCourses(String courses) {
+        if(courses == null || courses.trim().isEmpty()) {
+            throw new IllegalArgumentException("Courses should not be empty.");
+        }
         this.courses = courses;
     }
 

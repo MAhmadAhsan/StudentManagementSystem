@@ -13,4 +13,5 @@ public interface AdminFunctions {
     boolean isRegistered();
     String viewCurrentClasses();
     String viewStudentDetail(String classGrade, String rollNo);
+    String viewStudentsInClass(String classGrade);
 }

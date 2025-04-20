@@ -1,29 +1,17 @@
 package MainClasses;
 
-import Details.ContactInfo;
-import Details.Credentials;
 import DataAcessLayer.*;
-import Details.PersonalInfo;
+import Details.*;
 import org.jetbrains.annotations.NotNull;
 
 import static DataAcessLayer.StudentData.*;
 
 public class Admin extends User implements AdminFunctions {
-    private boolean isLoggedIn = false;
     // Constructors
     public Admin(){}
+
     public Admin(PersonalInfo personalInfo, ContactInfo contactInfo, Credentials credentials) {
         super(personalInfo, contactInfo, credentials);
-    }
-
-    // Getters
-    public boolean isLoggedIn() {
-        return isLoggedIn;
-    }
-
-    //Setters
-    public void setLoggedIn(boolean isLoggedIn) {
-        this.isLoggedIn = isLoggedIn;
     }
 
     // toString
@@ -31,8 +19,6 @@ public class Admin extends User implements AdminFunctions {
     public String toString() {
         return super.toString();
     }
-
-
     public void register(@NotNull Credentials credentials) throws NullPointerException {
         if(credentials == null){
             throw new NullPointerException();
@@ -49,16 +35,15 @@ public class Admin extends User implements AdminFunctions {
                 credentials.getUsername().equals(storedUsername) &&
                 credentials.getPassword().equals(storedPassword);
     }
-
     public void addNewTeacher(Teacher teacher){
     }
     public void removeTeacher(Teacher teacher){
     }
     public boolean addNewStudent(Student student){
-        return writeNewStudentDirectory(student);
+        return writeNewStudentDir(student);
     }
     public boolean removeStudent(Student student){
-        return deleteStudentDirectory(student.getStudentAcademicInfo().getRollNo(), student.getStudentAcademicInfo().getClassGrade());
+        return deleteStudentDir(student.getStudentAcademicInfo().getClassGrade(), student.getStudentAcademicInfo().getRollNo());
     }
     public boolean makeClass(String classGrade){
         if(classGrade == null || classGrade.isEmpty()){
@@ -78,11 +63,14 @@ public class Admin extends User implements AdminFunctions {
         return username != null && !username.isBlank() &&
                 password != null && !password.isBlank();
     }
-
     public String viewCurrentClasses(){
-        return getAllClasses();
+        return readAllClasses();
     }
     public String viewStudentDetail(String classGrade, String rollNo){
         return readStudentDetails(classGrade,rollNo);
     }
+    public String viewStudentsInClass(String classGrade){
+        return readStudentsInClass(classGrade);
+    }
+
 }

@@ -21,9 +21,17 @@ public class ContactInfo {
 
     // Setters
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        if (phoneNumber.matches("^03[0-9]{9}$")) {
+            this.phoneNumber = phoneNumber;
+        } else {
+            throw new IllegalArgumentException("Invalid phone number. It must start with '03' and be followed by 9 digits.");
+        }
     }
+
     public void setAddress(String address) {
+        if(address == null || address.trim().isEmpty()) {
+            throw new IllegalArgumentException("Address should not be empty.");
+        }
         this.address = address;
     }
 
