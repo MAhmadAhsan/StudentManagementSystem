@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 public class AdminData {
 
     // Path to the Admin directory in the Database
-    public static final Path adminPath = Paths.get("src","Database","Admin");
+    private static final Path adminPath = Paths.get("src","Database","Admin");
 
     /**
      * Reads the admin password from the credentials file.

@@ -5,6 +5,7 @@ import Details.*;
 import org.jetbrains.annotations.NotNull;
 
 import static DataAcessLayer.StudentData.*;
+import static DataAcessLayer.TeacherData.*;
 
 public class Admin extends User implements AdminFunctions {
     // Constructors
@@ -19,6 +20,7 @@ public class Admin extends User implements AdminFunctions {
     public String toString() {
         return super.toString();
     }
+
     public void register(@NotNull Credentials credentials) throws NullPointerException {
         if(credentials == null){
             throw new NullPointerException();
@@ -26,6 +28,7 @@ public class Admin extends User implements AdminFunctions {
         AdminData.writeAdminUsername(credentials.getUsername());
         AdminData.writeAdminPassword(credentials.getPassword());
     }
+
     public boolean isCredentialsMatched(@NotNull Credentials credentials) {
         String storedUsername = AdminData.readAdminUsername();
         String storedPassword = AdminData.readAdminPassword();
@@ -35,12 +38,21 @@ public class Admin extends User implements AdminFunctions {
                 credentials.getUsername().equals(storedUsername) &&
                 credentials.getPassword().equals(storedPassword);
     }
-    public void addNewTeacher(Teacher teacher){
+
+    public boolean addNewTeacher(Teacher teacher){
+        return writeNewTeacher(teacher);
     }
-    public void removeTeacher(Teacher teacher){
+
+    public boolean removeTeacher(String username){
+        return deleteTeacher(username);
     }
+
+    public String viewTeacherDetail(String username){
+        return readTeacherDetails(username);
+    }
+
     public boolean addNewStudent(Student student){
-        return writeNewStudentDir(student);
+        return writeNewStudent(student);
     }
     public boolean removeStudent(Student student){
         return deleteStudentDir(student.getStudentAcademicInfo().getClassGrade(), student.getStudentAcademicInfo().getRollNo());
@@ -72,5 +84,7 @@ public class Admin extends User implements AdminFunctions {
     public String viewStudentsInClass(String classGrade){
         return readStudentsInClass(classGrade);
     }
-
+    public String viewAllTeachers(){
+        return getAllTeachers();
+    }
 }

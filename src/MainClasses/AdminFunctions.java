@@ -4,8 +4,8 @@ import Details.Credentials;
 public interface AdminFunctions {
     void register(Credentials credentials);
     boolean isCredentialsMatched(Credentials credentials);
-    void addNewTeacher(Teacher teacher);
-    void removeTeacher(Teacher teacher);
+    boolean addNewTeacher(Teacher teacher);
+    boolean removeTeacher(String username);
     boolean addNewStudent(Student student);
     boolean removeStudent(Student student);
     boolean makeClass(String className);
@@ -14,4 +14,6 @@ public interface AdminFunctions {
     String viewCurrentClasses();
     String viewStudentDetail(String classGrade, String rollNo);
     String viewStudentsInClass(String classGrade);
+    String viewTeacherDetail(String username);
+    String viewAllTeachers();
 }

@@ -23,7 +23,7 @@ public class Credentials {
 
     // Setters
     public void setPassword(String password) {
-        if (password.length() <= 8) {
+        if (password.length() < 8) {
             throw new IllegalArgumentException("Password should have at least 8 characters.");
         } else if (password.contains(",")) {
             throw new IllegalArgumentException("Password should not contain a comma.");

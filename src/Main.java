@@ -115,9 +115,7 @@ public class Main {
         boolean stayLoggedIn = true;
         while (stayLoggedIn) {
             try {
-                int choice = ConsoleUtils.adminFunctionSelector();
-
-                switch (choice) {
+                switch (adminFunctionSelector()) {
                     // Logout
                     case 0 -> {
                         stayLoggedIn = false;
@@ -186,8 +184,7 @@ public class Main {
 
                     // Recover student credentials
                     case 7 -> {
-                        Student student = ConsoleUtils.classGradeAndRollNoForm();
-
+                        System.out.println("Recover student Credentials coming soon");
                     }
 
                     // view All Students in a class
@@ -200,20 +197,33 @@ public class Main {
                     // Add a new teacher
                     case 9 -> {
                         System.out.println("Enter teacher details to add:");
-                        // Add logic here or placeholder
-                        System.out.println("Coming soon...");
+                        Teacher teacher = ConsoleUtils.teacherInfo();
+                        Credentials credentials = teacher.generateTeacherCredentials();
+                        System.out.println(credentials);
+                        teacher.setCredentials(credentials);
+                        if (admin.addNewTeacher(teacher)) {
+                            System.out.println("Teacher username: " + teacher.getCredentials().getUsername());
+                            System.out.println("Teacher password: " + teacher.getCredentials().getPassword());
+                        } else {
+                            System.err.println("Teacher not added.");
+                        }
                     }
 
                     // Remove a teacher
                     case 10 -> {
-                        System.out.println("Enter teacher details to remove:");
-                        // Add logic here or placeholder
-                        System.out.println("Coming soon...");
+                        System.out.println("Enter teacher username:");
+                        if (admin.removeTeacher(scanner.nextLine())){
+                            System.out.println("Teacher removed.");
+                        } else {
+                            System.err.println("Teacher not found or not removed.");
+                        }
                     }
 
-                    // View teacher details
+                    // View teacher Info
                     case 11 -> {
-                        System.out.println("View teacher details coming soon");
+                        Student student = new Student();
+                        System.out.println("Enter teacher username:");
+                        System.out.println(admin.viewTeacherDetail(scanner.nextLine()));
                     }
 
                     // Recover teacher Credentials
@@ -223,7 +233,8 @@ public class Main {
 
                     // View all teachers
                     case 13 -> {
-                        System.out.println("View all teachers coming soon");
+                        System.out.println("All teachers");
+                        System.out.println(admin.viewAllTeachers());
                     }
 
                     default -> System.out.println("Invalid choice. Please try again.");

@@ -25,6 +25,7 @@ public class StudentData {
             return classDirectory.mkdirs();
         }
     }
+
     /**
      * Deletes the directory corresponding to the given class grade and its contents.
      *
@@ -52,7 +53,7 @@ public class StudentData {
             return false;
         }
     }
-    public static boolean writeNewStudentDir(Student student) {
+    public static boolean writeNewStudent(Student student) {
         String classGrade = student.getStudentAcademicInfo().getClassGrade();
         String rollNo = student.getStudentAcademicInfo().getRollNo();
 
@@ -100,7 +101,7 @@ public class StudentData {
         Path classDirectoryPath = schoolClasssesPath;
         File classDirectory = classDirectoryPath.toFile();
 
-        if (!classDirectory.exists() || !classDirectory.isDirectory()) {
+        if (!(classDirectory.exists() && classDirectory.isDirectory())) {
             return null; // No classes exist yet
         }
         return DatabaseFunctions.allChildFile(classDirectoryPath);

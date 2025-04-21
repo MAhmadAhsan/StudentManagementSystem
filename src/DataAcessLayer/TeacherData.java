@@ -10,7 +10,7 @@ import static Database.DatabaseFunctions.*;
 
 public class TeacherData {
     private static final Path teacherPath = Paths.get("src","Database","Teachers");
-    public static boolean writeNewTeacherDir(Teacher teacher){
+    public static boolean writeNewTeacher(Teacher teacher){
         String username = teacher.getCredentials().getUsername();
         Path teacherDirPath = teacherPath.resolve(username);
         File teacherDir = teacherDirPath.toFile();
@@ -25,7 +25,7 @@ public class TeacherData {
             return false;
         }
     }
-    public static boolean deleteTeacherDir(String teacherUsername){
+    public static boolean deleteTeacher(String teacherUsername){
         // Resolves the path to the class grade directory
         Path teacherDirPath = teacherPath.resolve(teacherUsername);
         // Converts the Path object to a File object for checking existence
@@ -61,5 +61,18 @@ public class TeacherData {
             return null;
         }
         return DatabaseFunctions.readFile(TeacherInfoPath);
+    }
+    public static boolean isTeacherExists(String teacherUsername){
+        Path TeacherInfoPath = teacherPath.resolve(teacherUsername);
+        File TeacherInfoFile = TeacherInfoPath.toFile();
+        return TeacherInfoFile.exists();
+    }
+    public static String readTeacherPassword(String teacherUsername){
+        Path TeacherPasswordPath = teacherPath.resolve(teacherUsername,"password.txt");
+        File TeacherInfoFile = TeacherPasswordPath.toFile();
+        if (!TeacherInfoFile.exists()) {
+            return null;
+        }
+        return DatabaseFunctions.readFile(TeacherPasswordPath);
     }
 }

@@ -1,10 +1,5 @@
 package MainClasses;
-
-import Details.Credentials;
-import Details.PersonalInfo;
-import Details.StudentAcademicInfo;
-import Details.ContactInfo;
-
+import Details.*;
 import java.security.SecureRandom;
 
 public class Student extends User implements StudentFunctions {
@@ -55,8 +50,8 @@ public class Student extends User implements StudentFunctions {
       */
      public Credentials generateStudentCredentials() {
           Credentials credentials = new Credentials();
-          // Generate username: classGrade with no spaces + "-" + roll number
-          credentials.setUsername(this.getStudentAcademicInfo().getClassGrade().replaceAll("\\s+", "") + "0-0" + this.getStudentAcademicInfo().getRollNo());
+          // Generate username: classGrade with no spaces + "0-0" + roll number
+          credentials.setUsername(this.getStudentAcademicInfo().getClassGrade().replaceAll("\\s+", "").toLowerCase() + "0-0" + this.getStudentAcademicInfo().getRollNo());
           // Generate a secure 8-digit random password
           SecureRandom secureRandom = new SecureRandom();
           int random8Digit = 100000000 + secureRandom.nextInt(900000000);

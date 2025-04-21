@@ -21,9 +21,15 @@ public class TeacherAcademicInfo {
 
     // Setters
     public void setCoursesTaught(String coursesTaught) {
+        if (coursesTaught== null || coursesTaught.isEmpty()){
+            throw new IllegalArgumentException("Courses Taught cannot be empty");
+        }
         this.coursesTaught = coursesTaught;
     }
     public void setQualification(String qualification) {
+        if (qualification == null || qualification.isEmpty()){
+            throw new IllegalArgumentException("Qualification cannot be empty");
+        }
         this.Qualification = qualification;
     }
 
@@ -31,6 +37,6 @@ public class TeacherAcademicInfo {
     // toStirng
     @Override
     public String toString() {
-        return "Teacher Academic Info:" + "\nCourses Taught :"+ getCoursesTaught() + "\nQualification :"+  getQualification();
+        return "Teacher Academic Info:" + "\nCourses Taught: "+ getCoursesTaught() + "\nQualification: "+  getQualification();
     }
 }

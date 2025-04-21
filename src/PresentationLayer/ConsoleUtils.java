@@ -26,8 +26,6 @@ public class ConsoleUtils {
      *         1 for Admin, 2 for Teacher, 3 for Student, 0 to Exit
      */
     public static int userLoginTypeForm() {
-        Scanner scanner = new Scanner(System.in);
-        int choice = -1;
         System.out.print("""
                     ====================================
                     Login
@@ -38,15 +36,16 @@ public class ConsoleUtils {
                     
                     0) Exit App
                     Enter your choice (0-3):\s""");
+        Scanner scanner = new Scanner(System.in);
+        int choice = -1;
         while (true) {
             try {
-                String input = scanner.nextLine(); // Read full line to avoid scanner issues
-                choice = Integer.parseInt(input);
+                choice = scanner.nextInt();
 
                 if (choice >= 0 && choice <= 3) {
                     return choice;
                 } else {
-                    System.out.println("Please enter a number between 1 and 4.");
+                    System.out.println("Please enter a number between 0 and 3.");
                     System.out.print("Enter your choice (0-3):");
                 }
             } catch (NumberFormatException e) {
@@ -71,8 +70,8 @@ public class ConsoleUtils {
     public static Credentials credentialsForm(String authType, String userType) {
         Credentials credentials = new Credentials();
         Scanner scanner = new Scanner(System.in);
-        System.out.println(authType + " : " + userType);
         System.out.println("====================================");
+        System.out.println(authType + " : " + userType);
         System.out.println("Enter Credentials (type '<' to go back):");
 
         while (true) {
@@ -94,8 +93,6 @@ public class ConsoleUtils {
                 System.err.println("Invalid: " + e.getMessage());
             }
         }
-
-        System.out.println("====================================");
         return credentials;
     }
 
@@ -109,52 +106,6 @@ public class ConsoleUtils {
      * @return an integer representing the selected function:
      *         values 1–13 correspond to specific actions, 0 indicates logout
      */
-//    public static int adminFunctionSelector() {
-//        Scanner scanner = new Scanner(System.in);
-//        int choice = -1;
-//        System.out.print("""
-//            ====================================
-//            What function would you like to select?
-//
-//            Manage Classes
-//            1) Make a new class
-//            2) Remove a current class
-//            3) View all created classes
-//
-//            Manage Students
-//            4) Add a new student
-//            5) Remove a current student
-//            6) View student Info
-//            7) Recover student credentials
-//            8) View All Students in a class
-//
-//            Manage Teachers
-//            9) Add a new teacher
-//            10) Remove a teacher
-//            11) View teacher detail
-//            12) Recover teacher credentials
-//            13) View all teachers
-//
-//            0) Logout
-//            Enter your choice (0-13):\s""");
-//
-//        while (true) {
-//            try {
-//                String input = scanner.nextLine();
-//                choice = Integer.parseInt(input);
-//
-//                if (choice >= 0 && choice <= 13) {
-//                    return choice; // Return the user's choice, including 0
-//                } else {
-//                    System.out.println("Please enter a number between 0 and 13.");
-//                    System.out.print("Enter your choice (0-13):");
-//                }
-//            } catch (NumberFormatException e) {
-//                System.out.println("Invalid input. Please enter a number.");
-//                System.out.print("Enter your choice (0-13):");
-//            }
-//        }
-//    }
     public static int adminFunctionSelector() {
         Scanner scanner = new Scanner(System.in);
         int choice = -1;
@@ -175,8 +126,7 @@ public class ConsoleUtils {
 
         while (true) {
             try {
-                String input = scanner.nextLine();
-                choice = Integer.parseInt(input);
+                choice = scanner.nextInt();
 
                 if (choice >= 0 && choice <= 13) {
                     return choice; // Return the user's choice, including 0
@@ -338,13 +288,12 @@ public class ConsoleUtils {
         student.setContactInfo(contactInfo);
 
         // Academic Info
-        StudentAcademicInfo academicInfo = academicInfoForm();
+        StudentAcademicInfo academicInfo = studentAcademicInfoForm();
         if (academicInfo == null) {
             System.out.println("Cancelled. Returning from student form...");
             return null;
         }
         student.setStudentAcademicInfo(academicInfo);
-        System.out.println("====================================");
         return student;
     }
 
@@ -459,7 +408,6 @@ public class ConsoleUtils {
             }
             try {
                 personalInfo.setGender(gender.toUpperCase());
-                System.out.println("====================================");
                 return personalInfo;
             }catch (IllegalArgumentException e) {
                 System.out.println("Invalid gender: " + e.getMessage());
@@ -487,7 +435,7 @@ public class ConsoleUtils {
 
         // Phone Number
         while (true) {
-            System.out.print("Enter Phone Number (Format: 03XXXXXXXXX): ");
+            System.out.print("Enter Phone Number (Format: 03_________ (11 characters)): ");
             String phone = scanner.nextLine().trim();
             if (phone.equals("<")) {
                 System.out.println("Going back...");
@@ -516,8 +464,6 @@ public class ConsoleUtils {
                 System.out.println("Invalid address: " + e.getMessage());
             }
         }
-
-        System.out.println("====================================");
         return contactInfo;
     }
 
@@ -530,7 +476,7 @@ public class ConsoleUtils {
      *
      * @return a {@link StudentAcademicInfo} object with the entered academic details, or {@code null} if the user cancels the input
      */
-    public static StudentAcademicInfo academicInfoForm() {
+    public static StudentAcademicInfo studentAcademicInfoForm() {
         Scanner scanner = new Scanner(System.in);
         StudentAcademicInfo studentAcademicInfo = new StudentAcademicInfo();
 
@@ -584,8 +530,94 @@ public class ConsoleUtils {
                 System.out.println("Invalid courses input: " + e.getMessage());
             }
         }
+        return studentAcademicInfo;
+    }
+
+    /**
+     * Collects teacher information from user input through the console.
+     * <p>
+     * This method prompts the user to enter personal, contact, and academic details of a teacher.
+     * The user can cancel the input process at any stage by typing '<'.
+     * If any step is cancelled, the method returns {@code null}.
+     *
+     * @return a {@link Teacher} object with the entered information,
+     *         or {@code null} if the user cancels at any step
+     */
+    public static Teacher teacherInfo(){
+        Scanner scanner = new Scanner(System.in);
+        Teacher teacher = new Teacher();
 
         System.out.println("====================================");
-        return studentAcademicInfo;
+        System.out.println("Enter teacher Details (type '<' to go back at any step)");
+        // Personal Info
+        PersonalInfo personalInfo = personalInfoForm();
+        if (personalInfo == null) {
+            return null;
+        }
+        teacher.setPersonalInfo(personalInfo);
+
+        // Contact Info
+        ContactInfo contactInfo = contactInfoForm();
+        if (contactInfo == null) {
+            return null;
+        }
+        teacher.setContactInfo(contactInfo);
+
+        // Academic Info
+        TeacherAcademicInfo teacherAcademicInfo = teacherAcademicInfoForm();
+        if (teacherAcademicInfo == null) {
+            System.out.println("Cancelled. Returning from student form...");
+            return null;
+        }
+        teacher.setTeacherAcademicInfo(teacherAcademicInfo);
+        return teacher;
+    }
+
+    /**
+     * Gathers academic information for a teacher via console input.
+     * <p>
+     * The method prompts the user to enter the courses taught and qualification of the teacher.
+     * The user can type '<' at any point to cancel the process, in which case {@code null} is returned.
+     *
+     * @return a {@link TeacherAcademicInfo} object with the entered academic details,
+     *         or {@code null} if the input process is cancelled
+     */
+    public static TeacherAcademicInfo teacherAcademicInfoForm() {
+        Scanner scanner = new Scanner(System.in);
+        TeacherAcademicInfo teacherAcademicInfo = new TeacherAcademicInfo();
+
+        System.out.println("====================================");
+        System.out.println("Enter Academic Info (type '<' to go back):");
+
+        // Courses taught
+        while (true) {
+            System.out.print("Enter Courses taught by teacher (comma-separated): ");
+            String courseTaught = scanner.nextLine().trim();
+            if (courseTaught.equals("<")) {
+                return null;
+            }
+            try {
+                teacherAcademicInfo.setCoursesTaught(courseTaught);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid: " + e.getMessage());
+            }
+        }
+
+        // Qualification
+        while (true) {
+            System.out.print("Enter teacher Qualification: ");
+            String qualification = scanner.nextLine().trim();
+            if (qualification.equals("<")) {
+                return null;
+            }
+            try {
+                teacherAcademicInfo.setQualification(qualification);
+                break;
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid: " + e.getMessage());
+            }
+        }
+        return teacherAcademicInfo;
     }
 }

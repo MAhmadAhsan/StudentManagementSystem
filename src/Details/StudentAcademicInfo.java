@@ -48,6 +48,6 @@ public class StudentAcademicInfo {
     // toStirng
     @Override
     public String toString() {
-        return "Student Academic Info:" + "\nClass :"+ getClassGrade() + "\nRollNo :"+ getRollNo() + "\nCourses :"+ getCourses();
+        return "Student Academic Info: " + "\nClass: "+ getClassGrade() + "\nRollNo: "+ getRollNo() + "\nCourses: "+ getCourses();
     }
 }

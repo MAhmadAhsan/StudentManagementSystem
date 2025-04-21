@@ -15,9 +15,6 @@ public class PersonalInfo {
 
     // Getters
     public String getName() {
-        if (name == null) {
-            throw new NullPointerException("Name has not been initialized.");
-        }
         return name;
     }
     public int getAge() {
@@ -51,6 +48,6 @@ public class PersonalInfo {
     // toString
     @Override
     public String toString() {
-        return "Personal Details:"+ "\nName : "+ getName() +"\nAge :  " + getAge() + "\nGender :  " + getGender();
+        return "Personal Details:"+ "\nName: "+ getName() +"\nAge:  " + getAge() + "\nGender:  " + getGender();
     }
 }

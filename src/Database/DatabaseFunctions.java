@@ -76,6 +76,7 @@ public class DatabaseFunctions {
         }
 
         StringBuilder classList = new StringBuilder();
+
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(path)) {
             List<String> childDirectories = new ArrayList<>();
             for (Path entry : stream) {
@@ -92,7 +93,7 @@ public class DatabaseFunctions {
                     }
                 }
             } else {
-                return ""; // No child directories
+                return "Nothing Exists"; // No child directories
             }
         } catch (IOException e) {
             return ""; // Return empty string on error
