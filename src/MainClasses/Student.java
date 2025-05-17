@@ -1,6 +1,10 @@
 package MainClasses;
+import DataAcessLayer.AdminData;
 import Details.*;
 import java.security.SecureRandom;
+import DataAcessLayer.StudentData;
+
+import static DataAcessLayer.StudentData.*;
 
 public class Student extends User implements StudentFunctions {
      private StudentAcademicInfo studentAcademicInfo;
@@ -10,66 +14,41 @@ public class Student extends User implements StudentFunctions {
           super(personalInfo, contactInfo, credentials);
           setStudentAcademicInfo(studentAcademicInfo);
      }
-
      // Getters
      public StudentAcademicInfo getStudentAcademicInfo() {
           return studentAcademicInfo;
      }
-
      // Setters
      public void setStudentAcademicInfo(StudentAcademicInfo studentAcademicInfo) {
           this.studentAcademicInfo = studentAcademicInfo;
      }
-
      // to String
      @Override
      public String toString() {
           return super.toString() + "\n" + getStudentAcademicInfo();
      }
      public boolean isCredentialsMatched(Credentials credentials){
-          return true;
+          String[] classGradeAndRollNo = parseUsername(credentials.getUsername());
+          String storedUsername = StudentData.readStudentUsername(classGradeAndRollNo[0],classGradeAndRollNo[1]);
+          String storedPassword = StudentData.readStudentPassword(classGradeAndRollNo[0],classGradeAndRollNo[1]);
+
+          return credentials.getUsername().equals(storedUsername) &&
+                  credentials.getPassword().equals(storedPassword);
      }
      public void viewInfo(){
 
      }
-     public void viewGrades(){
-
+     public String viewGrades(String classGrade, String courseName, String activity){
+          return readGrades(classGrade, courseName, activity);
      }
-     public void viewAttendance(){
-
-     }
-
-     /**
-      * Generates student credentials using the student's academic information.
-      * <p>
-      * The username is created by removing all spaces from the class grade and appending
-      * a dash followed by the student's roll number (e.g., "10A-123").
-      * The password is a securely generated 8-digit random number.
-      *
-      * @return a {@link Credentials} object containing the generated username and password
-      */
      public Credentials generateStudentCredentials() {
           Credentials credentials = new Credentials();
-          // Generate username: classGrade with no spaces + "0-0" + roll number
-          credentials.setUsername(this.getStudentAcademicInfo().getClassGrade().replaceAll("\\s+", "").toLowerCase() + "0-0" + this.getStudentAcademicInfo().getRollNo());
-          // Generate a secure 8-digit random password
+          credentials.setUsername(this.getStudentAcademicInfo().getClassGrade().replaceAll("\\s+", "").toLowerCase() + "-" + this.getStudentAcademicInfo().getRollNo());
           SecureRandom secureRandom = new SecureRandom();
-          int random8Digit = 100000000 + secureRandom.nextInt(900000000);
-          // Convert int to String
+          int random8Digit = 10000000 + secureRandom.nextInt(90000000);
           credentials.setPassword(String.valueOf(random8Digit));
           return credentials;
      }
-
-     /**
-      * Parses the given username to extract the classGrade and roll number.
-      * <p>
-      * The expected format of the username is "ClassGrade-RollNumber", e.g., "10A-123".
-      * It splits the string at the last dash ('-') character to separate the two components.
-      *
-      * @param username the username string to parse
-      * @return a String array where index 0 contains the classGrade, and index 1 contains the roll number;
-      *         returns null if the format is invalid (i.e., dash not found)
-      */
      public String[] parseUsername(String username) {
           int lastDashIndex = username.lastIndexOf('-');
 
@@ -82,5 +61,11 @@ public class Student extends User implements StudentFunctions {
           result[1] = username.substring(lastDashIndex + 1);     // Roll Number
 
           return result;
+     }
+     public String viewStudentInfo(String classGrade, String rollNo){
+          return readStudentDetails(classGrade,rollNo);
+     }
+     public String viewStudentAttendance(String classGrade, String courseName, String date) {
+          return StudentData.readAttendance(classGrade, courseName, date);
      }
 }

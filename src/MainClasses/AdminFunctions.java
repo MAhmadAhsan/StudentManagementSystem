@@ -12,8 +12,8 @@ public interface AdminFunctions {
     boolean removeClass(String className);
     boolean isRegistered();
     String viewCurrentClasses();
-    String viewStudentDetail(String classGrade, String rollNo);
+    String viewStudentInfo(String classGrade, String rollNo);
     String viewStudentsInClass(String classGrade);
-    String viewTeacherDetail(String username);
+    String viewTeacherInfo(String username);
     String viewAllTeachers();
 }

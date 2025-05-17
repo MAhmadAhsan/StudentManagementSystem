@@ -33,7 +33,7 @@ public class Credentials {
     }
 
     public void setUsername(String username) {
-        if (username.length() <= 3) {
+        if (username.length() < 3) {
             throw new IllegalArgumentException("Username should have at least 3 characters.");
         }else if (username.contains(",")) {
             throw new IllegalArgumentException("Username should contain comma.");

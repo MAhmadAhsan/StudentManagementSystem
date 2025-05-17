@@ -1,5 +1,5 @@
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
+
 import Details.Credentials;
 import MainClasses.*;
 import PresentationLayer.*;
@@ -43,8 +43,8 @@ public class Main {
                             if (admin.isCredentialsMatched(credentials)) {
                                 admin.setCredentials(credentials);
                                 System.out.println("Admin logged in");
-                                loggedInAdmin(admin);
                                 keepRunning = false;
+                                loggedInAdmin(admin);
                                 break;
                             } else {
                                 System.out.println("Invalid Admin credentials. Try again.");
@@ -65,8 +65,8 @@ public class Main {
                             if (teacher.isCredentialsMatched(credentials)) {
                                 teacher.setCredentials(credentials);
                                 System.out.println("Teacher logged in");
-                                loggedInTeacher(teacher);
                                 keepRunning = false;
+                                loggedInTeacher(teacher);
                             } else {
                                 System.out.println("Invalid Teacher credentials. Try again.");
                             }
@@ -89,7 +89,7 @@ public class Main {
                                 loggedInStudent(student);
                                 keepRunning = false;
                             } else {
-                                System.err.println("Invalid Student credentials. Try again.");
+                                System.out.println("Invalid Student credentials. Try again.");
                             }
                         }
                     }
@@ -101,11 +101,11 @@ public class Main {
                     }
 
                     default -> {
-                        System.err.println("Invalid choice. Please try again.");
+                        System.out.println("Invalid choice. Please try again.");
                     }
                 }
             }catch (Exception e){
-                e.getMessage();
+                System.out.println(e.getMessage());
             }
 
         }
@@ -144,7 +144,7 @@ public class Main {
 
                     // View all created classes
                     case 3 -> {
-                        System.out.println("All available classes...");
+                        System.out.println("All Registered classes...");
                         System.out.println(admin.viewCurrentClasses());
                     }
 
@@ -154,13 +154,13 @@ public class Main {
                         System.out.println("Enter student details to add:");
                         Student student = ConsoleUtils.studentInfoForm();
                         Credentials credentials = student.generateStudentCredentials();
-                        System.out.println(credentials);
                         student.setCredentials(credentials);
                         if (admin.addNewStudent(student)) {
-                            System.out.println("Student added: " + student.getCredentials().getUsername());
+                            System.out.println("Student Credentials Generated");
+                            System.out.println("Student Username: " + student.getCredentials().getUsername());
                             System.out.println("Student password: " + student.getCredentials().getPassword());
                         } else {
-                            System.err.println("Student not added.");
+                            System.out.println("Student not added.");
                         }
                     }
 
@@ -176,26 +176,21 @@ public class Main {
 
                     //View Student Info
                     case 6 -> {
-                        Student student = new Student();
                         System.out.println("Enter student Class and Roll no to view:");
-                        student = ConsoleUtils.classGradeAndRollNoForm();
-                        System.out.println(admin.viewStudentDetail(student.getStudentAcademicInfo().getClassGrade(),student.getStudentAcademicInfo().getRollNo()));
-                    }
-
-                    // Recover student credentials
-                    case 7 -> {
-                        System.out.println("Recover student Credentials coming soon");
+                        Student student = ConsoleUtils.classGradeAndRollNoForm();
+                        System.out.println("Student Info:");
+                        System.out.println(admin.viewStudentInfo(student.getStudentAcademicInfo().getClassGrade(),student.getStudentAcademicInfo().getRollNo()));
                     }
 
                     // view All Students in a class
-                    case 8 ->{
+                    case 7 ->{
                         System.out.println("All Students in a Class");
                         System.out.println(admin.viewStudentsInClass(ConsoleUtils.classGradeField()));
                     }
 
                     // Manage Teachers
                     // Add a new teacher
-                    case 9 -> {
+                    case 8 -> {
                         System.out.println("Enter teacher details to add:");
                         Teacher teacher = ConsoleUtils.teacherInfo();
                         Credentials credentials = teacher.generateTeacherCredentials();
@@ -205,34 +200,29 @@ public class Main {
                             System.out.println("Teacher username: " + teacher.getCredentials().getUsername());
                             System.out.println("Teacher password: " + teacher.getCredentials().getPassword());
                         } else {
-                            System.err.println("Teacher not added.");
+                            System.out.println("Teacher not added.");
                         }
                     }
 
                     // Remove a teacher
-                    case 10 -> {
+                    case 9 -> {
                         System.out.println("Enter teacher username:");
                         if (admin.removeTeacher(scanner.nextLine())){
                             System.out.println("Teacher removed.");
                         } else {
-                            System.err.println("Teacher not found or not removed.");
+                            System.out.println("Teacher not found or not removed.");
                         }
                     }
 
                     // View teacher Info
-                    case 11 -> {
+                    case 10 -> {
                         Student student = new Student();
                         System.out.println("Enter teacher username:");
-                        System.out.println(admin.viewTeacherDetail(scanner.nextLine()));
-                    }
-
-                    // Recover teacher Credentials
-                    case 12 -> {
-                        System.out.println("Recover teacher Credentials coming soon");
+                        System.out.println(admin.viewTeacherInfo(scanner.nextLine()));
                     }
 
                     // View all teachers
-                    case 13 -> {
+                    case 11 -> {
                         System.out.println("All teachers");
                         System.out.println(admin.viewAllTeachers());
                     }
@@ -240,10 +230,9 @@ public class Main {
                     default -> System.out.println("Invalid choice. Please try again.");
                 }
             } catch (IllegalArgumentException | NullPointerException e) {
-                e.printStackTrace();
+                System.out.println("Select again");
             } catch (InputMismatchException e) {
-                System.err.println("Invalid input. Please enter valid values.");
-                scanner.nextLine(); // clear buffer
+                System.out.println("Invalid input. Please enter valid values.");
             }
         }
     }
@@ -262,36 +251,66 @@ public class Main {
 
                     // View Student Info
                     case 1 -> {
-                        System.out.println("Coming soon...");
+                        System.out.println("Enter student Class and Roll no to view:");
+                        Student student = ConsoleUtils.classGradeAndRollNoForm();
+                        System.out.println("Students Info:");
+                        System.out.println(teacher.viewStudentInfo(student.getStudentAcademicInfo().getClassGrade(),student.getStudentAcademicInfo().getRollNo()));
                     }
 
                     // View All Students in a class
                     case 2 -> {
-                        System.out.println("Coming soon...");
+                        System.out.println("All Students in a Class");
+                        System.out.println(teacher.viewStudentsInClass(ConsoleUtils.classGradeField()));
                     }
 
                     // View all created classes
                     case 3 -> {
-                        System.out.println("Coming soon...");
+                        System.out.println("All Registered classes...");
+                        System.out.println(teacher.viewCurrentClasses());
                     }
 
                     // Upload class Attendance
                     case 4 -> {
-                        System.out.println("Coming soon...");
+                        String classGrade = classGradeField();
+                        String courseName = courseNameField();
+                        String date = dateField();
+                        String studentsInClass = teacher.viewStudentsInClass(classGrade);
+                        Map<String, String> attendance = ConsoleUtils.uploadAttendanceForm(studentsInClass, classGrade, courseName, date);
+                        if(teacher.uploadStudentAttendance(attendance, classGrade, courseName, date)){
+                            System.out.println("Attendance uploaded successfully.");
+                        }else{
+                            System.out.println("Error occurred during attendance upload.");
+                        }
                     }
 
                     // View class Attendance
                     case 5 -> {
-                        System.out.println("Coming soon...");
+                        String classGrade = classGradeField();
+                        String courseName = courseNameField();
+                        String date = dateField();
+                        System.out.println(teacher.viewAttendance(classGrade, courseName, date));
                     }
 
                     // Upload class Grades
-                    case 6 -> {}
-
+                    case 6 -> {
+                        String classGrade = classGradeField();
+                        String courseName = courseNameField();
+                        String activity = classActivityField();
+                        String studentsInClass = teacher.viewStudentsInClass(classGrade);
+                        Map<String, String> grades = ConsoleUtils.uploadGradesForm(studentsInClass, classGrade, courseName, activity);
+                        if(teacher.uploadStudentGrade(grades, classGrade, courseName, activity)){
+                            System.out.println("Grades uploaded successfully.");
+                        }else{
+                            System.out.println("Error occurred during Grades upload.");
+                        }
+                    }
 
                     // View class Grades
                     case 7 -> {
-                        System.out.println("Coming soon...");
+                        String classGrade = classGradeField();
+                        String courseName = courseNameField();
+                        String activity = classActivityField();
+                        System.out.println(teacher.viewGrades(classGrade, courseName, activity));
                     }
 
                     default -> System.out.println("Invalid choice. Please try again.");
@@ -299,12 +318,59 @@ public class Main {
             } catch (IllegalArgumentException | NullPointerException e) {
                 System.out.println("Select again");
             } catch (InputMismatchException e) {
-                System.err.println("Invalid input. Please enter valid values.");
+                System.out.println("Invalid input. Please enter valid values.");
                 scanner.nextLine(); // clear buffer
             }
         }
     }
-    public static void loggedInStudent(Student student){}
+    public static void loggedInStudent(Student student){
+        Scanner scanner = new Scanner(System.in);
+        boolean stayLoggedIn = true;
+        while (stayLoggedIn) {
+            try {
+                switch (studentFunctionSelector()) {
+                    // Logout
+                    case 0 -> {
+                        stayLoggedIn = false;
+                        loginUser();
+                    }
+
+                    // View Info
+                    case 1 -> {
+                        System.out.println("Your Info");
+                        String[] classGradeAndRollNo = student.parseUsername(student.getCredentials().getUsername());
+                        System.out.println(student.viewStudentInfo(classGradeAndRollNo[0],classGradeAndRollNo[1]));
+                    }
+
+                    // View Attendance
+                    case 2 -> {
+                        System.out.println("Attendance of your class");
+                        String courseName = courseNameField();
+                        String date = dateField();
+                        String[] classGradeAndRollNo = student.parseUsername(student.getCredentials().getUsername());
+                        System.out.println(student.viewStudentAttendance(classGradeAndRollNo[0], courseName, date));
+                    }
+
+                    // View Grades
+                    case 3 -> {
+                        System.out.println("Grades of your class");
+                        String courseName = courseNameField();
+                        String activity = classActivityField();
+                        String[] classGradeAndRollNo = student.parseUsername(student.getCredentials().getUsername());
+                        System.out.println(student.viewGrades(classGradeAndRollNo[0], courseName, activity));
+                    }
+
+                    default -> System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.println("Select again an unknown error occurred.");
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter valid values.");
+                scanner.nextLine(); // clear buffer
+            }
+        }
+    }
+
     public static void exitApp(){
         System.out.println("Exited Successfully...");
         System.exit(0);

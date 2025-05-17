@@ -4,7 +4,7 @@ import Details.Credentials;
 
 public interface StudentFunctions {
     boolean isCredentialsMatched(Credentials credentials);
-    void viewInfo();
-    void viewGrades();
-    void viewAttendance();
+    String viewStudentInfo(String classGrade, String rollNo);
+    String viewGrades(String classGrade, String courseName, String activity);
+    String viewStudentAttendance(String classGrade, String courseName, String date);
 }

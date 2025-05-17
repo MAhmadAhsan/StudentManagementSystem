@@ -1,8 +1,6 @@
 package MainClasses;
-
 import DataAcessLayer.*;
 import Details.*;
-import org.jetbrains.annotations.NotNull;
 
 import static DataAcessLayer.StudentData.*;
 import static DataAcessLayer.TeacherData.*;
@@ -21,7 +19,7 @@ public class Admin extends User implements AdminFunctions {
         return super.toString();
     }
 
-    public void register(@NotNull Credentials credentials) throws NullPointerException {
+    public void register(Credentials credentials) throws NullPointerException {
         if(credentials == null){
             throw new NullPointerException();
         }
@@ -29,7 +27,7 @@ public class Admin extends User implements AdminFunctions {
         AdminData.writeAdminPassword(credentials.getPassword());
     }
 
-    public boolean isCredentialsMatched(@NotNull Credentials credentials) {
+    public boolean isCredentialsMatched(Credentials credentials) {
         String storedUsername = AdminData.readAdminUsername();
         String storedPassword = AdminData.readAdminPassword();
 
@@ -47,7 +45,7 @@ public class Admin extends User implements AdminFunctions {
         return deleteTeacher(username);
     }
 
-    public String viewTeacherDetail(String username){
+    public String viewTeacherInfo(String username){
         return readTeacherDetails(username);
     }
 
@@ -78,7 +76,7 @@ public class Admin extends User implements AdminFunctions {
     public String viewCurrentClasses(){
         return readAllClasses();
     }
-    public String viewStudentDetail(String classGrade, String rollNo){
+    public String viewStudentInfo(String classGrade, String rollNo){
         return readStudentDetails(classGrade,rollNo);
     }
     public String viewStudentsInClass(String classGrade){
